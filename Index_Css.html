@@ -1,0 +1,236 @@
+<style>
+
+  
+:root {
+  --ff: "Montserrat", sans-serif;
+}
+.col-form-label {
+  font-weight: 700;
+  font-family: var(--ff);
+  /* color: #4a4a4a; */
+  color: #3d4d37;
+}
+.navbar {
+  background-color: #ffffff;
+}
+input[type="search"] {
+  padding: 20px;
+  height: 40px;
+  background: rgba(229, 228, 228, 1) 0% 0% no-repeat padding-box;
+  border-radius: 23px;
+  opacity: 0.47;
+}
+.head h2,
+.form h2 {
+  /* display: inline-block; */
+  padding-top: 15px;
+  margin-top: 10px;
+  margin-left: 5%;
+}
+.head p,
+.form p {
+  margin-left: 5%;
+  display: inline-block;
+}
+.head button {
+  background-color: #5457a5;
+  border-radius: 9px;
+  opacity: 1;
+  padding: 10px;
+  color: #f5f9fd;
+}
+.container h2 {
+  font-family: var(--ff);
+  font-weight: bolder;
+}
+
+.locicon {
+  width: 40px;
+  height: 40px;
+}
+
+.card-title {
+  font-family: var(--ff);
+  font-weight: bolder;
+  font-size: 42px;
+  /* padding: 10px 0; */
+  text-align: left;
+  letter-spacing: 1.51px;
+  color: #1565c0;
+  opacity: 1;
+}
+.card-subtitle {
+  color: #1e88e5 !important;
+}
+.card-text {
+  font-size: 13px;
+  text-align: left;
+  letter-spacing: 0.65px;
+  opacity: 1;
+}
+
+.card {
+  /* background-image: url(https://corp.gametize.com/wp-content/uploads/2014/07/events-heavenly-header.jpg); */
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+  backdrop-filter: blur(5px);
+  border-radius: 15px;
+  opacity: 1;
+  margin: 20px 20px !important;
+  border: 0;
+}
+.card-body h4{ 
+  padding:3px !important;
+}
+
+.card-body:hover {
+  background-color: rgb(241, 241, 241);
+  transform: scale(1.01);
+}
+
+.bi {
+  margin-right: 8%;
+  font-size: 25px;
+  cursor: pointer;
+  padding: 5px 12px;
+  border-radius: 25px;
+}
+.bi:hover {
+  background-color: rgb(229, 225, 225);
+  color: red;
+}
+.card button {
+  z-index: 1;
+  text-align: left;
+  letter-spacing: 0.64px;
+  color: #f6fafd;
+  background: #2aa2db 0% 0% no-repeat padding-box;
+  border-radius: 13px;
+  margin-left: 8%;
+  padding: 0 5px;
+  opacity: 1;
+}
+
+.bottom {
+  display: flex;
+  justify-content: center;
+}
+
+.two, .three{
+  padding: 20px;
+}
+.three input,
+select {
+  background: #eaeae9 0% 0% no-repeat padding-box !important;
+  border-radius: 23px !important;
+  opacity: 0.65 !important;
+}
+
+.three input::file-selector-button {
+  background: #aed8ff 0% 0% no-repeat padding-box;
+  border-radius: 15px;
+  opacity: 1;
+}
+
+.submit {
+  background: #5457a5 0% 0% no-repeat padding-box;
+  letter-spacing: 0.57px;
+  color: #f6fafd;
+  opacity: 1;
+  border-radius: 7px;
+  opacity: 1;
+  height: 37px;
+}
+.cancel {
+  border: 2px solid #354155;
+  border-radius: 7px;
+  opacity: 1;
+  border-radius: 7px;
+  opacity: 1;
+  height: 37px;
+  border: 2px solid #354155;
+}
+
+#closeReport,#closeProject{
+ 
+   border-radius: 9px;
+  opacity: 1;
+  padding: 10px;
+  color: #f5f9fd;
+  margin-left: 70%;
+}
+
+
+.lds-ellipsis {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-ellipsis div {
+  position: absolute;
+  top: 33px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #838282bf;
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+.lds-ellipsis div:nth-child(1) {
+  left: 8px;
+  animation: lds-ellipsis1 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(2) {
+  left: 8px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(3) {
+  left: 32px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(4) {
+  left: 56px;
+  animation: lds-ellipsis3 0.6s infinite;
+}
+@keyframes lds-ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes lds-ellipsis3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+@keyframes lds-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(24px, 0);
+  }
+}
+#preloader{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: large;
+  font-weight: bold;
+  color: grey;
+}
+#preloader2{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: large;
+  font-weight: bold;
+  color: grey;
+}
+</style>

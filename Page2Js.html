@@ -1,0 +1,174 @@
+<script>
+window.addEventListener('DOMContentLoaded',function(){
+   var projectName = document.getElementById("Project_Name").innerText.trim()
+    google.script.run.withSuccessHandler(tableData).sheetLink(projectName)
+  let currentDate = new Date().toJSON().slice(0, 10);
+  console.log(currentDate); 
+var visiter =  document.getElementById("deptment").innerText
+if(visiter != "Admin"){
+document.getElementById('actualStart').setAttribute('min', currentDate);
+document.getElementById('actualStart').setAttribute('max', currentDate);
+document.getElementById('actualEnd').setAttribute('min', currentDate);
+document.getElementById('actualEnd').setAttribute('max', currentDate);
+}
+    })
+var dataTable;
+var color={};
+var selectedrow='';
+function tableData(data){
+  const tableData = data[0]
+  color = data[1];
+    dataTable=$("#example").DataTable({
+    data: tableData,
+    responsive: true,
+    columns: [
+      { title: "MileStones" },
+      { title: "Tasks" },
+      { title: "Planned Days" },
+      { title: "Assigned To" },
+      { title: "Planned Start" },
+      { title: "Planned Finish" },
+      { title: "Actual Start" },
+      { title: "Actual Finish" },
+      { title: "Status" }
+    ],
+    columnDefs: [
+      { "visible": false, "targets": 0 }
+    ],
+    rowCallback: function (row, data,num,dislay,index) {
+          $('td:eq(7)',row).addClass(data[8].toLowerCase());
+          $(row).css("background-color",color[data[0]])
+          $(row).attr('id',index);
+          $(row).on('click',function(){
+    const booth = this.cells[0].textContent.trim()
+    const man = this.cells[2].textContent.trim()
+    const PS = this.cells[3].textContent.trim()
+    const PF = this.cells[4].textContent.trim()
+    const AS = this.cells[5].textContent.trim()
+    const AF = this.cells[6].textContent.trim()
+
+var date = PS.split('-');
+document.getElementById("planStart").value = date[2]+'-'+date[1]+'-'+date[0];
+date = PF.split('-');
+document.getElementById("planFinish").value = date[2]+'-'+date[1]+'-'+date[0];
+date = AS.split('-');
+document.getElementById("actualStart").value = date[2]+'-'+date[1]+'-'+date[0];
+date = AF.split('-');
+document.getElementById("actualEnd").value = date[2]+'-'+date[1]+'-'+date[0];
+document.getElementById("staticBackdropLabel").innerHTML = booth;
+
+ var selectElement = document.getElementById("AssignTo");   
+ for (var i = 0; i < selectElement.options.length; i++) {
+    if (selectElement.options[i].value == man) {
+        selectElement.selectedIndex = i;
+        break;
+    }
+}
+
+var visiter =  document.getElementById("deptment").innerText
+if(visiter == "Admin"){
+document.getElementById("AssignTo").removeAttribute("disabled")
+document.getElementById("o1").style.display =   "block"
+document.getElementById("o2").style.display = "block"
+document.getElementById("o3").style.display ="block"
+document.getElementById("o4").style.display = "block"
+document.getElementById("o5").style.display = "block"
+document.getElementById("saveChanges").style.display = "block"
+}else
+if(visiter == man){
+document.getElementById("o1").style.display ="block"
+document.getElementById("AssignTo").setAttribute("disabled",true);
+document.getElementById("o2").style.display ="none"
+document.getElementById("o3").style.display ="none"
+document.getElementById("o4").style.display ="block"
+document.getElementById("o5").style.display ="block"
+document.getElementById("delete").style.display ="none"
+document.getElementById("saveChanges").style.display = "none"
+}
+else{
+document.getElementById("delete").style.display ="none"
+document.getElementById("saveChanges").style.display = "none"
+document.getElementById("o1").style.display ="none"
+document.getElementById("o2").style.display ="none"
+document.getElementById("o3").style.display ="none"
+document.getElementById("o4").style.display ="none"
+document.getElementById("o5").style.display ="none"
+}
+const boothData = document.querySelectorAll("#staticBackdrop .modal-body a")
+selectedrow = this.id;
+console.log("selectedrow: "+selectedrow);
+$('#staticBackdrop').modal('show');
+          })
+        },
+   ordering: false,
+   pageLength: 50
+})
+}
+
+setTimeout(trigger, 5000)
+
+function managersName(data){
+   var managerNames = data[0].map(function(array) {
+      var opt = document.createElement('option')
+      opt.value = array[0]
+      opt.innerText = array[0]
+      document.getElementById("AssignTo").appendChild(opt)
+    })
+}
+
+function trigger() {
+var userID = document.getElementById('userID').textContent
+console.log(userID)
+ google.script.run.withSuccessHandler(managersName).managers()
+}
+
+document.getElementById('delete').addEventListener('click',deleteTask)
+document.getElementById('saveChanges').addEventListener('click',saveChanges)
+document.getElementById('updateTask').addEventListener('click',updateTask)
+
+function deleteTask(){
+var task = document.getElementById("staticBackdropLabel").textContent
+var link = document.getElementById('link').textContent
+google.script.run.withSuccessHandler(deleteRow).taskDeleted([task,link])
+}
+
+function deleteRow(){
+  dataTable.row($('tr#'+selectedrow)).remove().draw();
+}
+var rowval = [];
+
+function saveChanges(){
+rowval= dataTable.row($('tr#'+selectedrow)).data();
+var task = document.getElementById("staticBackdropLabel").textContent
+var link = document.getElementById('link').textContent
+var manager = document.getElementById("AssignTo").value
+var ps= document.getElementById("planStart").value
+var pf= document.getElementById("planFinish").value
+var as= document.getElementById("actualStart").value
+var ae= document.getElementById("actualEnd").value
+console.log([task,link,manager,ps,pf,as,ae])
+google.script.run.withSuccessHandler(updateTable).taskSaved([task,link,manager,ps,pf,as,ae])
+}
+
+function updateTask(){
+rowval= dataTable.row($('tr#'+selectedrow)).data();
+var task = document.getElementById("staticBackdropLabel").textContent
+var link = document.getElementById('link').textContent
+var ps= document.getElementById("planStart").value
+var pf= document.getElementById("planFinish").value
+var doerd = document.getElementById("AssignTo").value
+var as= document.getElementById("actualStart").value
+var ae= document.getElementById("actualEnd").value
+console.log([task,link,doerd,ps,pf,as,ae])
+google.script.run.withSuccessHandler(updateTable).updateTaskSaved([task,link,doerd,ps,pf,as,ae])
+}
+
+function updateTable(data){
+  $('#staticBackdrop').modal('hide');
+  dataTable.clear();
+  dataTable.destroy();
+  rowval=[];
+  var projectName = document.getElementById("Project_Name").innerText.trim()
+  google.script.run.withSuccessHandler(tableData).sheetLink(projectName)
+}
+</script>

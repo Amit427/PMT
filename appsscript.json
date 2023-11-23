@@ -1,0 +1,18 @@
+{
+  "timeZone": "Asia/Kolkata",
+  "dependencies": {
+    "libraries": [
+      {
+        "userSymbol": "WhatsAppLibrary",
+        "version": "6",
+        "libraryId": "1Gh-jjBMlx0as2wfAR_pIQAgGFotLGX3hiv3Q2fkbjRb-FpRpQJqo9Sw4"
+      }
+    ]
+  },
+  "exceptionLogging": "STACKDRIVER",
+  "runtimeVersion": "V8",
+  "webapp": {
+    "executeAs": "USER_DEPLOYING",
+    "access": "DOMAIN"
+  }
+}

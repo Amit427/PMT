@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Events List</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+<?!= include('Index_Css') ?>
+  </head>
+  <body>
+    
+       <span id="Urlid" style="display:none;"><?!=ScriptApp.getService().getUrl();?></span>
+    <section class="m-3">
+      <div
+        class="container d-sm-flex d-flex d-lg-flex align-items-center justify-content-center"
+      >
+        <img
+          src="https://drive.google.com/uc?export=view&id=13mgI-cqtVmoCvrjm0JClFrij6jbZ5HWi"
+          height="70"
+          alt="Logo"
+          loading="lazy"
+        />
+      </div>
+      <h2 class="d-sm-flex d-lg-flex d-flex justify-content-center" id="heading">
+        Project Management
+      </h2>
+    </section>
+    <section class="head" id="head">
+      <div class="container">
+        <h2>All Projects</h2>
+        <div class="row d-flex justify-content-center">
+      <div class="col-lg-4 col-md-4 col-sm-4 col-12 p-3">
+        <button type="button" id="oldProject"  onclick="oldProject()" >All completed Projects</button>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-4 col-12 p-3">
+        <button type="button" id="newProject"  onclick="openForm()" >Add New Project</button>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-4 col-12 p-3">
+        <button type="button" id="newReport"   onclick="onReport()" style="background-color:#ffd500;color:#000000" >Project Report</button>
+      </div>
+          </div>
+        <hr />
+        <h4>All Ongoing Projects</h4>
+      </div>
+    </section>
+    <section class="two" id="two" style="display: block">
+      <div class="container">
+      <div id="preloader">Fetching Data <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div></div>
+                
+        <div class="row justify-content-center" id="cardContainer"></div>
+      </div>
+    </section>
+    <section class="form" id="form" style="display: none">
+      <div class="container">
+        <h2>Create Project</h2>
+        <p>Create New Project</p>
+        <hr />
+      </div>
+    </section>
+    <section class="three" id="three" style="display: none">
+      <div class="container">
+        <form action="" >
+          <div class="row justify-content-center">
+            <div class="col-lg-3 col-md-4 col-sm-5 mb-3 mx-lg-4 mt-3">
+              <label for="Project_Name" class="col-form-label"
+                >Project Name:</label
+              >
+              <input
+                type="text"
+                id="Project_Name"
+                oninput="checkValidate()"
+                class="form-control text-center"
+                placeholder="Type Here"
+              />
+              <span style="color: red; display: none" id="f1"
+                >*Please Enter the Project Name</span
+              >
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-5 mb-3 mx-lg-4 mt-3">
+              <label for="Project_Name" class="col-form-label"
+                >Project Type:</label
+              >
+              <select id="Project_Type" class="form-select text-center"></select>
+
+              <span style="color: red; display: none" id="f1"
+                >*Please Enter the Project Name</span
+              >
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-5 mb-3 mx-lg-4 mt-3">
+              <label for="Services_Name" class="col-form-label"
+                >Services Type:</label
+              >
+              <select id="Services_Name" class="form-select text-center"></select>
+
+              <span style="color: red; display: none" id="f1"
+                >*Please Enter the Project Name</span
+              >
+            </div>
+          
+           
+          </div>
+          <div class="row justify-content-center">
+            <div class="col-lg-3 col-md-4 col-sm-5 mb-3 mx-lg-4 mt-3">
+              <label for="Project_Manager" class="col-form-label"
+                >Project Manager :</label
+              >
+              <select id="Project_Manager" class="form-select text-center">
+                <option></option>
+              </select>
+
+              <span style="color: red; display: none" id="f2"
+                >*Please Select the Project Manager</span
+              >
+            </div>
+             <div class="col-lg-3 col-md-4 col-sm-5 mb-3 mx-lg-4 mt-3">
+              <label for="Customer" class="col-form-label"
+                >Customer Name:</label
+              >
+              <input
+                type="text"
+                id="Customer"
+                oninput="checkValidate()"
+                class="form-control text-center"
+                placeholder="Type Here"
+              />
+              <span style="color: red; display: none" id="f5"
+                >*Please Enter the Customer Name</span
+              >
+            </div>
+           <div class="col-lg-3 col-md-4 col-sm-5 mx-lg-4 mb-3 mt-3">
+              <label for="Cust_Email" class="col-form-label">Customer Email:</label>
+              <input
+                type="email"
+                oninput="checkValidate()"
+                id="Cust_Email"
+                class="form-control text-center"
+                placeholder="Type Here"
+              />
+              <span style="color: red; display: none" id="f4"
+                >*Please Enter the Project End Date</span
+              >
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-5 mx-lg-4 mb-3 mt-3">
+              <label for="project_Start_Date" class="col-form-label">Project Start Date:</label>
+              <input
+                type="date"
+                id="project_Start_Date"
+                oninput="checkValidate()"
+                class="form-control text-center"
+                placeholder="Type Here"
+                
+              />
+              <span style="color: red; display: none" id="f3"
+                >*Please Enter the Project Start Date</span
+              >
+            </div>
+          </div>
+          <div class="row justify-content-center mt-4">
+            <button
+              type="submit"
+              id="sBtn"
+              class="submit col-lg-1 col-md-2 mb-4 col-4"
+              disabled
+            >
+              Submit
+            </button>
+            <button
+              type="button"
+              onclick="closeForm()"
+              class="cancel col-lg-1 col-md-2 offset-lg-1 offset-md-1 offset-sm-1 col-4 offset-1"
+            >
+              Close
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+
+<section id="report" class="justify-content-center" style="display:none">
+<div class="container">
+        <h2 class="p-2">Projects Report</h2>
+        <button type="button" id="closeReport" onclick="offReport()" style="background-color:#ff0000;color:white;" >Close Report</button>        
+  <hr/>
+<iframe width="100%" height="850" src="https://lookerstudio.google.com/embed/reporting/9d107ea5-21f5-457b-9a25-62dd1108fac0/page/AMffD" frameborder="0" style="border:0" allowfullscreen></iframe>
+</div>
+</section>
+
+<section class="two" id="four" style="display: none">
+      <div class="container">
+      <h2>All completed Projects</h2>
+      <button type="button"  id="closeProject" onclick="offProject()" style="background-color:#ff0000;color:white;" >&nbsp&nbsp&nbsp&nbspExit&nbsp&nbsp&nbsp&nbsp</button>        
+      <div id="preloader2">Fetching Data <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div></div>
+        <div class="row justify-content-center" id="cardContainer2"></div>
+      </div>
+</section>
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Project Delete</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+Do you want to delete this project ?      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">No</button>
+        <button type="button" class="btn btn-success" onclick="confirm()">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="confirmation" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="confirmationLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="confirmationLabel">Confirm Deletion</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+     Are you sure ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">No</button>
+        <button type="button" class="btn btn-success" onclick="deletes()">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+      <span style="display:none" id="deptment"><?!=deptment?></span>
+      <span style="display:none" id="user"><?!=user?></span>
+    
+    <?!= include('Index_Js') ?>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+  </body>
+</html>

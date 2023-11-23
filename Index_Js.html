@@ -1,0 +1,352 @@
+
+<script>
+  const bgdata = {};
+  var department = document.getElementById('deptment').textContent.trim();
+
+document.getElementById("sBtn").addEventListener("click", submitC)
+
+var managerData; 
+
+document.addEventListener('DOMContentLoaded',
+ function(){
+  if(department == "Admin") 
+  {
+  console.log(department)
+document.getElementById("newProject").style.display = "block";
+  }else{
+document.getElementById("newProject").style.display = "none";
+  }
+  google.script.run.withSuccessHandler(options).managers()
+  google.script.run.withSuccessHandler(createCard2).getProjects2()
+  google.script.run.withSuccessHandler(createCard).getProjects()
+ 
+ })
+
+
+function openForm() {
+  console.log("working")
+  document.getElementById("head").style.display = "none"
+  document.getElementById("two").style.display = "none"
+  document.getElementById("four").style.display = "none"
+  document.getElementById("three").style.display = "block"
+  document.getElementById("form").style.display = "block"
+}
+
+function closeForm() {
+  console.log("Cancel")
+  document.getElementById("three").style.display = "none"
+  document.getElementById("form").style.display = "none"
+  document.getElementById("two").style.display = "block"
+  document.getElementById("head").style.display = "block"
+}
+
+
+function options(data){
+// console.table(data)
+var managerNames = data[0].map(function(array) {
+  return array[0]
+  })
+var managerSelect = document.getElementById('Project_Manager')
+  managerSelect.innerHTML = '';
+ managerNames.forEach(function (e) {
+    var opt = document.createElement('option');
+    opt.textContent = e;
+    managerSelect.appendChild(opt);
+  });
+// console.log(data[1])
+var pType = data[1].split(',')
+
+var projT = document.getElementById('Project_Type')
+pType.forEach(t=>{
+let o =  document.createElement('option')
+o.textContent = t
+o.value = t
+projT.appendChild(o)
+})
+var sType = data[2].split(',')
+var servT = document.getElementById('Services_Name')
+sType.forEach(t=>{
+let o =  document.createElement('option')
+o.textContent = t
+o.value = t
+servT.appendChild(o)
+})
+}
+
+function checkValidate() {
+  var pN = document.getElementById("Project_Name").value
+  var c = document.getElementById("Customer").value
+  var pSD = document.getElementById("project_Start_Date").value
+  var CE = document.getElementById("Cust_Email").value
+
+  if (pN == "") {
+    document.getElementById("f1").style.display = "block"
+  } else {
+    {
+      document.getElementById("f1").style.display = "none"
+    }
+  }
+  if (pSD == "") {
+    document.getElementById("f3").style.display = "block"
+  } else {
+    {
+      document.getElementById("f3").style.display = "none"
+    }
+  }
+  if (CE == "") {
+    document.getElementById("f4").style.display = "block"
+  } else {
+    {
+      document.getElementById("f4").style.display = "none"
+    }
+  }
+  if (c == "") {
+    document.getElementById("f5").style.display = "block"
+  } else {
+    {
+      document.getElementById("f5").style.display = "none"
+    }
+  }
+
+  if (pN != "" && c != "" && pSD != "" && CE != "") {
+    var myButton = document.getElementById("sBtn")
+    myButton.disabled = false
+    myButton.style.cursor = "pointer"
+  } else if(pN == "" && c == "" && pSD == "" && CE == ""){
+    var myButton = document.getElementById("sBtn")
+    myButton.disabled = true
+  }
+}
+
+
+function submitC(e){
+  e.preventDefault()
+  document.getElementById("three").style.display = "none"
+  document.getElementById("form").style.display = "none"
+var pName= document.getElementById("Project_Name").value
+var pmNAme= document.getElementById("Project_Manager").value
+var cName= document.getElementById("Customer").value
+var cEMail= document.getElementById("Cust_Email").value
+var psDate= document.getElementById("project_Start_Date").value
+var projT = document.getElementById('Project_Type').value
+var servT = document.getElementById('Services_Name').value
+
+       document.getElementById('preloader').style.display=""
+var pro = [pName,pmNAme,cName,cEMail,projT,servT,psDate]
+google.script.run.withSuccessHandler(reload).setProjectData(pro)
+}
+
+
+function reload(){
+closeForm()
+  const ele = document.getElementById('cardContainer');
+    while(ele.children.length){
+    ele.firstElementChild.remove();
+  }
+    google.script.run.withSuccessHandler(createCard).getProjects();
+  }
+
+function createCard(cardData) {
+  document.getElementById("preloader").style.display = "none"
+  var cardContainer = document.getElementById("cardContainer")
+  // console.log(cardData)
+  if (!cardData.length) {
+    const h4 = document.createElement("h5")
+    h4.textContent = "No Project Found"
+    cardContainer.appendChild(h4)
+    return
+  }
+  cardData.forEach(function (card) {
+    var col = document.createElement("div")
+    col.classList.add(
+      "col-lg-4",
+      "col-md-6",
+      "col-sm-6",
+      "col-xl-5",
+      "col-xxl-4"
+    )
+    var cardElement = document.createElement("div")
+    cardElement.classList.add("card", "shadow")
+    var cardBody = document.createElement("div")
+    cardBody.classList.add("card-body")
+    cardBody.addEventListener("click", function () {
+      console.log("Card clicked")
+      var cardTitle = card[0].trim()
+      const url = document.getElementById("Urlid").innerText.trim()
+      var newWindow = window.open(
+        url + "?v=" + "Page2&evt=" + cardTitle,
+        "_top"
+      )
+    })
+    var p1 = document.createElement("p")
+    p1.classList.add("card-title", "t1")
+    p1.textContent = card[0].trim()
+    var h3 = document.createElement("h4")
+    h3.classList.add("card-subtitle")
+    h3.textContent = card[1]
+    var h5 = document.createElement("h4")
+    h5.classList.add("card-subtitle", "fw-bold")
+    h5.textContent = card[4] +" - "+ `${card[10]}%`
+    var h6 = document.createElement("h4")
+    h6.classList.add("card-subtitle")
+    h6.textContent = card[5]
+    var h4 = document.createElement("h4")
+    h4.classList.add("card-subtitle", "cs", "mb-2", "text-muted")
+    h4.textContent = "Start Date- " +card[6].toString()
+    var bottom = document.createElement("div")
+    bottom.classList.add("bottom")
+    bottom.addEventListener("click", function () {
+    
+      event.stopPropagation()
+      bgdata.card = card[0].trim()
+    
+    bottom.setAttribute('data-bs-toggle',"modal")
+    bottom.setAttribute('data-bs-target',"#staticBackdrop")
+  })
+
+   
+    var i = document.createElement("i")
+    i.classList.add("bi", "bi-trash")
+    if(department == 'Admin'){
+    i.style.display="block"
+    }else{
+    i.style.display="none"
+    }
+
+      bottom.appendChild(i)
+    cardBody.appendChild(p1)
+    cardBody.appendChild(h3)
+    cardBody.appendChild(h5)
+    cardBody.appendChild(h6)
+    cardBody.appendChild(document.createElement("hr"))
+    cardBody.appendChild(h4)
+    cardBody.appendChild(bottom)
+    cardElement.appendChild(cardBody)
+    col.appendChild(cardElement)
+    cardContainer.appendChild(col)
+  })
+}
+
+function createCard2(cardData) {
+  document.getElementById("preloader2").style.display = "none"
+  var cardContainer = document.getElementById("cardContainer2")
+  // console.log(cardData)
+  if (!cardData.length) {
+    const h4 = document.createElement("h5")
+    h4.textContent = "No Project Found"
+    cardContainer.appendChild(h4)
+    return
+  }
+  cardData.forEach(function (card) {
+    var col = document.createElement("div")
+    col.classList.add(
+      "col-lg-4",
+      "col-md-6",
+      "col-sm-6",
+      "col-xl-5",
+      "col-xxl-4"
+    )
+    var cardElement = document.createElement("div")
+    cardElement.classList.add("card", "shadow")
+    var cardBody = document.createElement("div")
+    cardBody.classList.add("card-body")
+    cardBody.addEventListener("click", function () {
+      console.log("Card clicked")
+      var cardTitle = card[0].trim()
+      const url = document.getElementById("Urlid").innerText.trim()
+      var newWindow = window.open(
+        url + "?v=" + "Page2&evt=" + cardTitle,
+        "_top"
+      )
+    })
+    var p1 = document.createElement("p")
+    p1.classList.add("card-title", "t1")
+    p1.textContent = card[0].trim()
+    var h3 = document.createElement("h4")
+    h3.classList.add("card-subtitle")
+    h3.textContent = card[1]
+    var h5 = document.createElement("h4")
+    h5.classList.add("card-subtitle", "fw-bold")
+    h5.textContent = card[4] +" - "+ `${card[10]}%`
+    var h6 = document.createElement("h4")
+    h6.classList.add("card-subtitle")
+    h6.textContent = card[5]
+    var h4 = document.createElement("h4")
+    h4.classList.add("card-subtitle", "cs", "mb-2", "text-muted")
+    h4.textContent = "Start Date- " +card[6].toString()
+    var bottom = document.createElement("div")
+    bottom.classList.add("bottom")
+    bottom.addEventListener("click", function () {
+    
+      event.stopPropagation()
+      bgdata.card = card[0].trim()
+    
+    bottom.setAttribute('data-bs-toggle',"modal")
+    bottom.setAttribute('data-bs-target',"#staticBackdrop")
+  })
+
+   
+    var i = document.createElement("i")
+    i.classList.add("bi", "bi-trash")
+    if(department == 'Admin'){
+    i.style.display="block"
+    }else{
+    i.style.display="none"
+    }
+
+      bottom.appendChild(i)
+    cardBody.appendChild(p1)
+    cardBody.appendChild(h3)
+    cardBody.appendChild(h5)
+    cardBody.appendChild(h6)
+    cardBody.appendChild(document.createElement("hr"))
+    cardBody.appendChild(h4)
+    cardBody.appendChild(bottom)
+    cardElement.appendChild(cardBody)
+    col.appendChild(cardElement)
+    cardContainer.appendChild(col)
+  })
+}
+function confirm(){
+  $('#staticBackdrop').modal('hide')
+  $('#confirmation').modal('show')
+}
+
+function deletes(){
+  google.script.run.withSuccessHandler(reload).deleteCard(bgdata.card)
+        $('#confirmation').modal('hide')
+}
+
+var dateInput = document.getElementById("project_Start_Date");
+var today = new Date().toISOString().split("T")[0];
+dateInput.setAttribute("min", today);
+
+
+function onReport(){
+ document.getElementById("head").style.display = "none"
+ document.getElementById("two").style.display = "none"
+ document.getElementById("report").style.display = "flex"
+ document.getElementById("four").style.display = "none"
+}
+
+function offReport(){
+ document.getElementById("head").style.display = "block"
+ document.getElementById("two").style.display = "block"
+ document.getElementById("report").style.display = "none"
+ 
+}
+
+function oldProject(){
+ document.getElementById("four").style.display = "block"
+ document.getElementById("head").style.display = "none"
+ document.getElementById("two").style.display = "none"
+
+}
+
+function offProject(){
+ document.getElementById("head").style.display = "block"
+ document.getElementById("two").style.display = "block"
+ document.getElementById("four").style.display = "none"
+}
+
+</script>

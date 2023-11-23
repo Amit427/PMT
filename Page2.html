@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+  <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css"
+    />
+
+<?!= include('Page2Css') ?>
+  </head>
+  <body>
+     <section class="m-3">
+      <div
+        class="container d-sm-flex d-flex d-lg-flex align-items-center justify-content-center"
+      >
+        <img
+          src="https://drive.google.com/uc?export=view&id=13mgI-cqtVmoCvrjm0JClFrij6jbZ5HWi"
+          height="70"
+          alt="Logo"
+          loading="lazy"
+        />
+      </div>
+      <h2 class="d-sm-flex d-flex d-lg-flex justify-content-center" id="heading">
+        Project Management
+      </h2>
+    </section>
+
+     <section class="m-3">
+      <div class="container">
+        <div class="row p-2">
+          <h5 class=" col-lg-2 col-md-4 col-sm-6  p-2 shadow pname">Project Name :</h5>
+          <h5 class=" col-lg-3 col-md-5 col-sm-6 p-2  shadow name" id="Project_Name"><?!=project_Name?></h5>
+          <h5 class=" offset-lg-2 col-lg-2 col-md-4 col-sm-6  p-2 shadow pm">Project Manager :</h5>
+          <h5 class=" col-lg-3 col-md-5 col-sm-6 p-2  shadow pmname"><?!=project_Manager?></h5>
+          <h5 class=" col-lg-2 col-md-4 col-sm-6 p-2  shadow pm">Project Type :</h5>
+          <h5 class=" col-lg-3 col-md-5 col-sm-6 p-2  shadow pmname"><?!=project_Type?></h5>
+          <h5 class=" offset-lg-2 col-lg-2 col-md-4 col-sm-6 p-2  shadow pm">Services Type :</h5>
+          <h5 class=" col-lg-3 col-md-5 col-sm-6 p-2  shadow pmname"><?!=service_type?></h5>
+        </div>
+       <table
+          id="example"
+          class="nowrap table-hover"
+          width="100%"
+        ></table>
+     </div>
+
+     <div id="link" style="display:none"><?!=link?></div>
+     <div id="userID" style="display:none"><?!=user?></div>
+
+    
+    </section>
+
+  <div
+      class="modal fade"
+      id="staticBackdrop"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel"></h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+        <div id="o1">
+            <label for="AssignTo" class="form-label">Assign To</label>
+            <select class="form-select" name="" id="AssignTo" ></select>
+        </div>
+         <div id="o2">   
+            <label for="planStart" class="form-label">Planned Start</label>
+            <input type="date" id="planStart" class="form-control" />
+         </div>
+         <div id="o3">   
+            <label for="planFinish" class="form-label">Planned Finish</label>
+            <input type="date" id="planFinish" class="form-control" />
+         </div>
+         <div id="o4">   
+            <label for="actualStart" class="form-label">Actual Start</label>
+            <input type="date" id="actualStart" class="form-control" />
+         </div>
+         <div id="o5">   
+            <label for="actualEnd" class="form-label">Actual End</label>
+            <input type="date" id="actualEnd" class="form-control" />
+         </div>
+
+          </div>
+           <div class="modal-footer">
+              <button
+              type="button"
+              class="btn btn-success"
+              id="updateTask"
+              data-bs-dismiss="modal"
+            >
+              Update Task
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger"
+              id="delete"
+              data-bs-dismiss="modal"
+            >
+              Delete
+            </button>
+            <button type="button" id="saveChanges" class="btn btn-success">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+       <span style="display:none" id="deptment"><?!=deptment?></span>
+       <span style="display:none" id="user"><?!=user?></span>
+    
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <?!= include('Page2Js') ?>
+
+
+
+
+
+  </body>
+</html>
